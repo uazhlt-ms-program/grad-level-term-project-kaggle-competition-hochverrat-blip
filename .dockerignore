@@ -1,0 +1,10 @@
+.git
+__pycache__/
+.venv/
+venv/
+artifacts/
+submission.csv
+.vendor/
+train.zip
+train.tar
+train.7z
