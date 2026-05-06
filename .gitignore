@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.python-version
+.ipynb_checkpoints/
+artifacts/
+submission.csv
+*.log
+core.*
