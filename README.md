@@ -34,3 +34,9 @@ Run it:
 ```bash
 docker run --rm -v "$(pwd):/app" review-classifier
 ```
+
+## Data note
+
+The `train.csv` included in this repository is a reduced subset used for verification
+
+Replace it with the full `train.csv` provided in the Kaggle competition.
