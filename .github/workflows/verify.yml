@@ -1,0 +1,49 @@
+name: Verify Project
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  verify-python:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Run classifier directly
+        run: python train_classifier.py
+
+      - name: Check direct-run outputs
+        run: |
+          test -f submission.csv
+          test -f artifacts/stage1_review_vs_not_review.joblib
+          test -f artifacts/stage2_positive_vs_negative.joblib
+
+  verify-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t review-classifier .
+
+      - name: Run Docker container
+        run: docker run --rm -v "$PWD:/app" review-classifier
+
+      - name: Check Docker outputs
+        run: |
+          test -f submission.csv
+          test -f artifacts/stage1_review_vs_not_review.joblib
+          test -f artifacts/stage2_positive_vs_negative.joblib
